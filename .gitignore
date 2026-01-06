@@ -1,0 +1,14 @@
+.vim/
+captions/
+images/
+older_versions/
+__pycache__/
+*.pt/
+*.pth
+imagens_janelas_sismofacies/
+legendas_sismofacies/
+imagens*
+legendas*
+janelas*
+data/
+test_torch.py
