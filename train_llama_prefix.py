@@ -36,13 +36,9 @@ def calc_val_loss(val_loader, llama_model, clip_encoder, criterion):
 
             target_ids = inputs_ids[:, 1:]
 
-            # pred_ids = torch.argmax(pred_logits, dim=-1)
-
             if batch % 20 == 0:
-                # pred_text_embeds = llama_model.lang_model.model.embed_tokens(pred_ids[0])
                 prefix_embeds = llama_model.get_prefix_embeds_from_img_embeds(image_embeds)[0]
                 prefix_embeds = prefix_embeds.unsqueeze(0)
-                # input_embeds = torch.cat( [prefix_embeds.unsqueeze(0), pred_text_embeds.unsqueeze(0)], dim=1 )
                 bos_id = llama_model.tokenizer.bos_token_id
                 bos_embed = llama_model.lang_model.model.embed_tokens(
                     torch.tensor([[bos_id]], device=device)
@@ -83,19 +79,12 @@ def calc_train_loss(train_loader, llama_model, clip_encoder, criterion, optimize
 
         image_embeds = clip_encoder.encode_image(image_batch)
 
-        optimizer.zero_grad(set_to_none=True)
-
         outputs = llama_model( image_embeds, inputs_ids )
 
         prefix_len = llama_model.prefix_len
         pred_logits = outputs.logits[:, prefix_len:-1,:]
 
         target_ids = inputs_ids[:, 1:]
-
-        # pred_ids = torch.argmax(pred_logits, dim=-1)
-        # if idx % 40 == 0:
-        # print("Correct:", llama_model.tokenizer.decode( target_ids[0], skip_special_tokens=True))
-        # print("Predicted:", llama_model.tokenizer.decode( pred_ids[0], skip_special_tokens=True))
 
         loss = criterion(
             pred_logits.reshape(-1, pred_logits.size(-1)), target_ids.reshape(-1),
@@ -104,6 +93,7 @@ def calc_train_loss(train_loader, llama_model, clip_encoder, criterion, optimize
         loss = loss / num_tokens
         total_train_loss += loss.item()
 
+        optimizer.zero_grad()
         loss.backward()
         optimizer.step()
 
@@ -142,7 +132,7 @@ def main():
 
         torch.save(best_weights, LANG_PREFIX_CHECKPOINT)
         print(LANG_PREFIX_CHECKPOINT, "saved.")
-        # torch.cuda.empty_cache()
+        torch.cuda.empty_cache()
 
 
 if __name__ == "__main__":

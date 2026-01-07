@@ -4,10 +4,10 @@ import torch
 CLIP_VISION_MODEL = 'checkpoints/resnet18_image_encoder.pth'
 CLIP_LANGUAGE_MODEL = 'checkpoints/seismic_distilbert.pt'
 CUSTOM_CLIP_FILE = 'checkpoints/clip_sismico_sintetico.pth'
+LANG_PREFIX_CHECKPOINT = 'checkpoints/lang_prefix_ckpt.pth'
 
 N_EPOCHS = 10
 LEARNING_RATE = 1e-5
-LANG_PREFIX_CHECKPOINT = 'checkpoints/lang_prefix_ckpt.pth'
 
 IMAGE_FOLDER_TRAIN = 'data/images/training'
 TEXT_FOLDER_TRAIN = 'data/captions/training'

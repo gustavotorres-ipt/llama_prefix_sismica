@@ -7,7 +7,7 @@ from config import device
 class LlamaPrefix(nn.Module):
     def __init__(self, model_name = "meta-llama/Llama-3.2-1B",
                  prefix_len=15,
-                 # max_sent_length=128,
+                 max_new_tokens=25,
                  clip_hidden_dim=512) -> None:
         super().__init__()
 
@@ -23,6 +23,7 @@ class LlamaPrefix(nn.Module):
 
         self.hidden_size = self.lang_model.config.hidden_size
         self.prefix_len = prefix_len
+        self.max_new_tokens = max_new_tokens
 
         # MLP using to project the dimensions of the CLIP output
         # to (llama latent space X number of prefix embeddings).
@@ -75,7 +76,7 @@ class LlamaPrefix(nn.Module):
     def tokenize_texts(self, texts):
         inputs = self.tokenizer(
             texts, truncation=True, padding=True,
-            return_tensors="pt", max_length=128,
+            return_tensors="pt", max_length=40,
         ).to(device)
         return inputs
 
@@ -97,14 +98,15 @@ class LlamaPrefix(nn.Module):
         with torch.no_grad():
             generated_content = self.lang_model.generate(
                 **inputs,
-                max_new_tokens=128,
+                max_new_tokens=self.max_new_tokens,
                 pad_token_id=self.tokenizer.eos_token_id
             )[0]
             return self.tokenizer.decode(
                 generated_content, skip_special_tokens=True)
 
     def generate_text_from_embeds(self, inputs_embeds):
-        max_new_tokens = 25 - inputs_embeds.size(1) + self.prefix_len
+        max_new_tokens = self.max_new_tokens - \
+            inputs_embeds.size(1) + self.prefix_len
 
         attention_mask = torch.ones(
             inputs_embeds.size(0),
