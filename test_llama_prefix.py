@@ -20,9 +20,11 @@ def main():
 
     clip_encoder = CLIP_DistilBert_ResNet().to(device)
     clip_encoder.load_state_dict(torch.load(CUSTOM_CLIP_FILE))
+    clip_encoder.eval()
 
     llama_model = LlamaPrefix().to(device)
     llama_model.load_state_dict(torch.load(LANG_PREFIX_CHECKPOINT))
+    llama_model.eval()
 
 
     for image_batch, caption_batch in tqdm(val_loader):
