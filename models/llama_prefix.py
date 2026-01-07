@@ -1,14 +1,12 @@
 import torch
 from torch import nn
 from transformers import AutoModelForCausalLM, AutoTokenizer
-
-
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+from config import device
 
 
 class LlamaPrefix(nn.Module):
     def __init__(self, model_name = "meta-llama/Llama-3.2-1B",
-                 prefix_len=10,
+                 prefix_len=15,
                  # max_sent_length=128,
                  clip_hidden_dim=512) -> None:
         super().__init__()
@@ -22,8 +20,6 @@ class LlamaPrefix(nn.Module):
             dtype=torch.float16 if device == "cuda" else torch.float32,
             device_map="auto"
         )
-        for p in self.lang_model.parameters():
-            p.requires_grad = False
 
         self.hidden_size = self.lang_model.config.hidden_size
         self.prefix_len = prefix_len
@@ -38,6 +34,8 @@ class LlamaPrefix(nn.Module):
             nn.Linear(self.hidden_size*2, self.hidden_size*self.prefix_len),
             nn.LayerNorm(self.hidden_size * self.prefix_len)
         )
+        for p in self.lang_model.parameters():
+            p.requires_grad = False
 
     def get_attention_mask(self, input_ids):
         batch_size = input_ids.shape[0]
@@ -46,45 +44,32 @@ class LlamaPrefix(nn.Module):
             batch_size,
             self.prefix_len,
             device=device
-        )
+        ).long()
+        text_mask = (input_ids != self.tokenizer.pad_token_id)
 
-        text_mask = (input_ids != self.tokenizer.pad_token_id).long()
+        return torch.cat([prefix_mask, text_mask], dim=1).long().to(device)
 
-        return torch.cat([prefix_mask, text_mask], dim=1)
-
-    def prefix_and_text_to_logits(self, image_embeds, input_ids):
-        x = self.proj_mlp(image_embeds)
+    def get_prefix_embeds_from_img_embeds(self, image_embeds):
+        x = self.proj_mlp(image_embeds).to(dtype=self.lang_model.dtype)
 
         prefix_embeds = x.view(x.size(0), self.prefix_len, self.hidden_size)
+        return prefix_embeds
+
+    def prefix_and_text_to_logits(self, image_embeds, input_ids):
+        prefix_embeds = self.get_prefix_embeds_from_img_embeds(image_embeds)
         text_embeds = self.lang_model.model.embed_tokens(input_ids)
         input_embeds = torch.cat( [prefix_embeds, text_embeds], dim=1 )
 
-        output = self.generate_output_from_embeds(input_embeds, input_ids)
+        output = self.get_output_for_embeds(input_embeds, input_ids)
         return output
 
-    def generate_output_from_embeds(self, inputs_embeds, input_ids):
+    def get_output_for_embeds(self, inputs_embeds, input_ids):
         attention_mask = self.get_attention_mask(input_ids)
 
-        # outputs = self.lang_model.generate(
-        #     inputs_embeds=input_embeds,
-        #     attention_mask=attention_mask,
-        #     max_new_tokens=128,
-        #     #temperature=0.1,
-        #     top_p=0.9,
-        #     do_sample=True,
-        #     pad_token_id=self.tokenizer.eos_token_id,
-        #     return_dict_in_generate=True,
-        #     output_scores=True,
-        # )
         outputs = self.lang_model(
             inputs_embeds=inputs_embeds,
             attention_mask=attention_mask
         )
-
-        # output_text = self.tokenizer.decode(
-        #     output_ids[0],
-        #     skip_special_tokens=True
-        # )
         return outputs
 
     def tokenize_texts(self, texts):
@@ -96,13 +81,14 @@ class LlamaPrefix(nn.Module):
 
 
     def forward(self, image_embeds, input_ids):
-        x = self.proj_mlp(image_embeds)
+        x = self.proj_mlp(image_embeds).to(dtype=self.lang_model.dtype)
 
         prefix_embeds = x.view(x.size(0), self.prefix_len, self.hidden_size)
         text_embeds = self.lang_model.model.embed_tokens(input_ids)
+
         input_embeds = torch.cat( [prefix_embeds, text_embeds], dim=1 )
 
-        output = self.generate_output_from_embeds(input_embeds, input_ids)
+        output = self.get_output_for_embeds(input_embeds, input_ids)
         return output
 
     def generate_text_for_prompt(self, prompts):
@@ -117,3 +103,27 @@ class LlamaPrefix(nn.Module):
             return self.tokenizer.decode(
                 generated_content, skip_special_tokens=True)
 
+    def generate_text_from_embeds(self, inputs_embeds):
+        max_new_tokens = 25 - inputs_embeds.size(1) + self.prefix_len
+
+        attention_mask = torch.ones(
+            inputs_embeds.size(0),
+            inputs_embeds.size(1),
+            device=device
+        ).long()
+
+        generated_ids = self.lang_model.generate(
+            inputs_embeds=inputs_embeds,
+            attention_mask=attention_mask,
+            max_new_tokens=max_new_tokens,
+            temperature=0.4,
+            top_p=0.8,
+            repetition_penalty=1.2,
+            no_repeat_ngram_size=3,
+            pad_token_id=self.tokenizer.pad_token_id,
+            eos_token_id=self.tokenizer.eos_token_id,
+            early_stopping=True,
+        )[0]
+
+        return self.tokenizer.decode(
+            generated_ids, skip_special_tokens=True)

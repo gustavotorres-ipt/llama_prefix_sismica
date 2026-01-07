@@ -64,6 +64,9 @@ class CLIP_DistilBert_ResNet(nn.Module):
             torch.ones([]) * (1 / learnable_temp)
         )
 
+        for p in self.parameters():
+            p.requires_grad = False
+
     # ------------------------------------------------------------------
     # Encode text using DistilBERT → pooled embedding → projection → norm
     # ------------------------------------------------------------------
