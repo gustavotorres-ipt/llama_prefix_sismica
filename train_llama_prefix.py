@@ -127,6 +127,7 @@ def main():
 
         if avg_val_loss < best_loss:
             best_weights = copy.deepcopy(llama_model.state_dict())
+            best_loss = avg_val_loss
             torch.save(best_weights, LANG_PREFIX_CHECKPOINT)
             print(LANG_PREFIX_CHECKPOINT, "saved.")
 

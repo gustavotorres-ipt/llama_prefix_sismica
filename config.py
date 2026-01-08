@@ -9,10 +9,10 @@ CUSTOM_CLIP_FILE = 'checkpoints/clip_sismico_sintetico.pth'
 N_EPOCHS = 15
 LEARNING_RATE = 1e-5
 
-IMAGE_FOLDER_TRAIN = 'data/images/training'
-TEXT_FOLDER_TRAIN = 'data/captions/training'
-IMAGE_FOLDER_VAL = 'data/images/validation'
-TEXT_FOLDER_VAL = 'data/captions/validation'
+IMAGE_FOLDER_TRAIN = 'toy_data/images/training'
+TEXT_FOLDER_TRAIN = 'toy_data/captions/training'
+IMAGE_FOLDER_VAL = 'toy_data/images/validation'
+TEXT_FOLDER_VAL = 'toy_data/captions/validation'
 
 PROJECTION_SIZE = 512
 BATCH_SIZE = 16
