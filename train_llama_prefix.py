@@ -127,11 +127,11 @@ def main():
 
         if avg_val_loss < best_loss:
             best_weights = copy.deepcopy(llama_model.state_dict())
+            torch.save(best_weights, LANG_PREFIX_CHECKPOINT)
+            print(LANG_PREFIX_CHECKPOINT, "saved.")
 
         print(f"Epoch {epoch} - Train loss: {avg_train_loss}. Val loss: {avg_val_loss}")
 
-        torch.save(best_weights, LANG_PREFIX_CHECKPOINT)
-        print(LANG_PREFIX_CHECKPOINT, "saved.")
         torch.cuda.empty_cache()
 
 
