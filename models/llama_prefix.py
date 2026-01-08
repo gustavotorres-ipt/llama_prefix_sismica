@@ -17,7 +17,7 @@ class LlamaPrefix(nn.Module):
 
         self.lang_model = AutoModelForCausalLM.from_pretrained(
             model_name,
-            dtype=torch.float16 if device == "cuda" else torch.float32,
+            torch_dtype=torch.float16 if device == "cuda" else torch.float32,
             device_map="auto"
         )
 
@@ -124,7 +124,7 @@ class LlamaPrefix(nn.Module):
             no_repeat_ngram_size=3,
             pad_token_id=self.tokenizer.pad_token_id,
             eos_token_id=self.tokenizer.eos_token_id,
-            early_stopping=True,
+            # early_stopping=True,
         )[0]
 
         return self.tokenizer.decode(
