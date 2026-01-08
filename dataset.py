@@ -9,12 +9,12 @@ from torchvision import transforms
 def read_captions_json(file_path):
     with open(file_path) as f:
         captions = json.load(f)["captions"]
-        return captions[0] #random.choice(captions)
+        return random.choice(captions)
 
 
 def load_images(batch_size):
     image_paths = [os.path.join(IMAGE_FOLDER_VAL, filename)
-                   for filename in os.listdir(IMAGE_FOLDER_VAL) ]
+                   for filename in sorted(os.listdir(IMAGE_FOLDER_VAL)) ]
     random.shuffle(image_paths)
     images = [Image.open(path).convert("RGB")
               for path in image_paths[:batch_size]]
@@ -23,11 +23,11 @@ def load_images(batch_size):
 
 def load_captions(shuffle=False):
     text_paths_train = [os.path.join(TEXT_FOLDER_TRAIN, filename)
-                        for filename in os.listdir(TEXT_FOLDER_TRAIN) ]
+                        for filename in sorted(os.listdir(TEXT_FOLDER_TRAIN)) ]
     captions_train = [read_captions_json(path) for path in text_paths_train]
 
     text_paths_val = [os.path.join(TEXT_FOLDER_VAL, filename)
-                      for filename in os.listdir(TEXT_FOLDER_VAL) ]
+                      for filename in sorted(os.listdir(TEXT_FOLDER_VAL)) ]
     captions_val = [read_captions_json(path) for path in text_paths_val]
 
     if shuffle:
@@ -40,12 +40,12 @@ def load_captions(shuffle=False):
 def load_datasets():
     image_paths_train = [
         os.path.join(IMAGE_FOLDER_TRAIN, filename)
-        for filename in os.listdir(IMAGE_FOLDER_TRAIN)
+        for filename in sorted(os.listdir(IMAGE_FOLDER_TRAIN))
     ]
 
     image_paths_val = [
         os.path.join(IMAGE_FOLDER_VAL, filename)
-        for filename in os.listdir(IMAGE_FOLDER_VAL)
+        for filename in sorted(os.listdir(IMAGE_FOLDER_VAL))
     ]
 
     print("Loading images and captions...")
