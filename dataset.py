@@ -6,6 +6,11 @@ from PIL import Image
 from config import IMAGE_FOLDER_TRAIN, TEXT_FOLDER_TRAIN, IMAGE_FOLDER_VAL, TEXT_FOLDER_VAL
 from torchvision import transforms
 
+class ImageNorm(object):
+    def __call__(self, x):
+        return (x - x.mean()) / (x.std() + 1e-6)
+
+
 def read_captions_json(file_path):
     with open(file_path) as f:
         captions = json.load(f)["captions"]
@@ -53,10 +58,11 @@ def load_datasets():
     captions_train, captions_val = load_captions()
 
     transformation = transforms.Compose([
-        transforms.Resize((224, 224)),
+        transforms.Resize((96, 96)),
         transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406],
-                             [0.229, 0.224, 0.225])  # ImageNet stats
+        ImageNorm()
+        # transforms.Normalize([0.485, 0.456, 0.406],
+        #                     [0.229, 0.224, 0.225])  # ImageNet stats
     ])
 
     train_dataset = CustomDataset(

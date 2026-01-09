@@ -1,11 +1,9 @@
 import torch
-import copy
-from torch import nn
 from tqdm import tqdm
 from torch.utils.data import DataLoader
 from models.llama_prefix import LlamaPrefix
 from models.clip_model import CLIP_DistilBert_ResNet
-from config import LEARNING_RATE, CUSTOM_CLIP_FILE, N_EPOCHS, BATCH_SIZE, device, LANG_PREFIX_CHECKPOINT
+from config import CUSTOM_CLIP_FILE, device, LANG_PREFIX_CHECKPOINT
 from dataset import load_datasets
 
 torch.cuda.set_device(0)
