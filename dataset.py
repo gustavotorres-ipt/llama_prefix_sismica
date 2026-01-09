@@ -10,6 +10,10 @@ class ImageNorm(object):
     def __call__(self, x):
         return (x - x.mean()) / (x.std() + 1e-6)
 
+def read_labels_json(file_path):
+    with open(file_path) as f:
+        return json.load(f)["label"]
+
 
 def read_captions_json(file_path):
     with open(file_path) as f:
@@ -29,17 +33,17 @@ def load_images(batch_size):
 def load_captions(shuffle=False):
     text_paths_train = [os.path.join(TEXT_FOLDER_TRAIN, filename)
                         for filename in sorted(os.listdir(TEXT_FOLDER_TRAIN)) ]
-    captions_train = [read_captions_json(path) for path in text_paths_train]
+    # captions_train = [read_captions_json(path) for path in text_paths_train]
 
     text_paths_val = [os.path.join(TEXT_FOLDER_VAL, filename)
                       for filename in sorted(os.listdir(TEXT_FOLDER_VAL)) ]
-    captions_val = [read_captions_json(path) for path in text_paths_val]
+    # captions_val = [read_captions_json(path) for path in text_paths_val]
 
     if shuffle:
-        random.shuffle(captions_train)
-        random.shuffle(captions_val)
+        random.shuffle(text_paths_train)
+        random.shuffle(text_paths_val)
 
-    return captions_train, captions_val
+    return text_paths_train, text_paths_val
 
 
 def load_datasets():
@@ -66,19 +70,20 @@ def load_datasets():
     ])
 
     train_dataset = CustomDataset(
-        image_paths=image_paths_train, texts=captions_train, transform=transformation
+        image_paths=image_paths_train, text_paths=captions_train, transform=transformation
     )
     val_dataset = CustomDataset(
-        image_paths=image_paths_val, texts=captions_val, transform=transformation
+        image_paths=image_paths_val, text_paths=captions_val, transform=transformation
     )
 
     return train_dataset, val_dataset
 
 
 class CustomDataset(torch.utils.data.Dataset):
-    def __init__(self, image_paths, texts, transform=None):
+    def __init__(self, image_paths, text_paths, transform=None):
         self.image_paths = image_paths
-        self.texts = texts
+        self.texts = [read_captions_json(path) for path in text_paths]
+        self.labels = [read_labels_json(path) for path in text_paths]
         self.transform = transform
 
     def __len__(self):
@@ -90,4 +95,5 @@ class CustomDataset(torch.utils.data.Dataset):
         if self.transform:
             image = self.transform(image)
         text = self.texts[idx]
-        return image, text
+        label = self.labels[idx]
+        return image, text, label

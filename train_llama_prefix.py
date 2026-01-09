@@ -21,7 +21,7 @@ def calc_val_loss(val_loader, llama_model, clip_encoder, criterion):
     with torch.no_grad():
         batch = 0
 
-        for (image_batch, text_batch) in tqdm(val_loader):
+        for image_batch, text_batch, _ in tqdm(val_loader):
             image_batch = image_batch.to(device)
 
             text_inputs = llama_model.tokenize_texts(text_batch)
@@ -71,7 +71,7 @@ def calc_train_loss(train_loader, llama_model, clip_encoder, criterion, optimize
 
     total_train_loss = 0
 
-    for (image_batch, text_batch) in tqdm(train_loader):
+    for image_batch, text_batch, _ in tqdm(train_loader):
         image_batch = image_batch.to(device)
 
         text_inputs = llama_model.tokenize_texts(text_batch)

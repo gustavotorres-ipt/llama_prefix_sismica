@@ -1,6 +1,7 @@
 import torch
 
 LANG_PREFIX_CHECKPOINT = 'checkpoints/lang_prefix_ckpt_real_data.pth'
+
 # 
 # CLIP_VISION_MODEL = 'checkpoints/resnet18_image_encoder.pth'
 # CLIP_LANGUAGE_MODEL = 'checkpoints/seismic_distilbert.pt'

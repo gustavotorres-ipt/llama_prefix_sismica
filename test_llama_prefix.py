@@ -25,7 +25,7 @@ def main():
     llama_model.eval()
 
 
-    for image_batch, caption_batch in tqdm(val_loader):
+    for image_batch, caption_batch, label_batch in tqdm(val_loader):
         image_batch = image_batch.to(device)
         image_embeds = clip_encoder.encode_image(image_batch)
 
@@ -42,6 +42,7 @@ def main():
         print(100 * '-')
         print("Correct caption:", caption_batch[0])
         print("Generated:", llama_model.generate_text_from_embeds(inputs_embeds))
+        print("Label:", label_batch[0])
         print(100 * '-')
 
 
