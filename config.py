@@ -1,6 +1,8 @@
 import torch
 
-LANG_PREFIX_CHECKPOINT = 'checkpoints/lang_prefix_ckpt_real_data.pth'
+LANG_PREFIX_CHECKPOINT ='checkpoints/lang_prefix_ckpt_real_data_MLP.pth'
+
+
 
 # 
 # CLIP_VISION_MODEL = 'checkpoints/resnet18_image_encoder.pth'
@@ -22,7 +24,6 @@ LANG_PREFIX_CHECKPOINT = 'checkpoints/lang_prefix_ckpt_real_data.pth'
 # 
 # CHROMA_DB_FILE = 'embeddings_sismicos'
 # N_EMBEDS_BATCH = 1000  # How many files to save each time
-
 
 
 # CLIP_VISION_MODEL = 'checkpoints/resnet18_inline_xline_todos_tams_balanceado_encoder.pth'
@@ -53,7 +54,7 @@ CLIP_LANGUAGE_MODEL = 'checkpoints/mlm_sismofacies.pt'
 CUSTOM_CLIP_FILE = 'checkpoints/clip_il_xl_64_balanceado.pth'
 
 N_EPOCHS = 15
-LEARNING_RATE = 1e-5
+LEARNING_RATE = 1e-4 # 1e-5
 BATCH_SIZE = 4
 
 IMAGE_FOLDER_TRAIN = 'data/janelas_inline_xline_64_balanceado/training'

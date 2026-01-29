@@ -12,6 +12,13 @@ torch.cuda.set_device(0)
 torch.backends.cuda.matmul.allow_tf32 = True
 # torch.backends.cudnn.benchmark = False
 
+def cut_text_after_last_period(text: str) -> str:
+    idx = text.rfind(".")
+    if idx == -1:
+        return text
+    return text[:idx] + '.'
+
+
 def get_most_probable_tokens_prefix(llama_model, prefix_embeds):
 
     if prefix_embeds.dim() == 2:
@@ -68,7 +75,9 @@ def main():
             #    llama_model, inputs_embeds)
 
             print("Correct caption:", caption_batch[0])
-            print("Generated:", llama_model.generate_text_from_embeds(inputs_embeds))
+            generated_text = llama_model.generate_text_from_embeds(inputs_embeds)
+
+            print("Generated:", cut_text_after_last_period(generated_text))
             print("Label:", label_batch[0])
             #print("Closest tokens to prefix embeddings:", " ".join(prefix_tokens[1:]))
             print(100 * '-')

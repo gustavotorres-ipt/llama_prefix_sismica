@@ -2,6 +2,7 @@ import torch
 from torch import nn
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from config import device
+from models.prefix_transformer import PrefixTransformer
 
 
 class LlamaPrefix(nn.Module):
@@ -27,6 +28,11 @@ class LlamaPrefix(nn.Module):
 
         # MLP using to project the dimensions of the CLIP output
         # to (llama latent space X number of prefix embeddings).
+        # self.proj_mlp = PrefixTransformer(
+        #     clip_dim=clip_hidden_dim,
+        #     hidden_size=self.hidden_size,
+        #     prefix_len=self.prefix_len,
+        # )
         self.proj_mlp = nn.Sequential(
             nn.Linear(clip_hidden_dim, self.hidden_size),
             nn.GELU(),
@@ -76,7 +82,7 @@ class LlamaPrefix(nn.Module):
     def tokenize_texts(self, texts):
         inputs = self.tokenizer(
             texts, truncation=True, padding=True,
-            return_tensors="pt", max_length=40,
+            return_tensors="pt", max_length=self.max_new_tokens,
         ).to(device)
         return inputs
 
