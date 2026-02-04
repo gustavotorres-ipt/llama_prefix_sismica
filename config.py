@@ -1,8 +1,6 @@
 import torch
 
-LANG_PREFIX_CHECKPOINT ='checkpoints/lang_prefix_ckpt_real_data_MLP.pth'
-
-
+LANG_PREFIX_CHECKPOINT ='checkpoints/prefix_ckpt_parihaka_f3.pth'
 
 # 
 # CLIP_VISION_MODEL = 'checkpoints/resnet18_image_encoder.pth'
@@ -49,18 +47,19 @@ LANG_PREFIX_CHECKPOINT ='checkpoints/lang_prefix_ckpt_real_data_MLP.pth'
 
 
 
-CLIP_VISION_MODEL = 'checkpoints/resnet18_inline_xline_64_balanceado_v2_encoder.pth'
-CLIP_LANGUAGE_MODEL = 'checkpoints/mlm_sismofacies.pt'
-CUSTOM_CLIP_FILE = 'checkpoints/clip_il_xl_64_balanceado.pth'
+CLIP_VISION_MODEL = 'checkpoints/resnet34_parihaka_f3_encoder.pth'
+CLIP_LANGUAGE_MODEL = 'checkpoints/lang_ckpt_parihaka_f3.pt'
+CUSTOM_CLIP_FILE = 'checkpoints/clip_parihaka_f3.pth'
 
 N_EPOCHS = 15
 LEARNING_RATE = 1e-4 # 1e-5
-BATCH_SIZE = 4
+BATCH_SIZE = 8
 
-IMAGE_FOLDER_TRAIN = 'data/janelas_inline_xline_64_balanceado/training'
-TEXT_FOLDER_TRAIN = 'data/legendas_inline_xline_64_balanceado/training'
-IMAGE_FOLDER_VAL = 'data/janelas_inline_xline_64_balanceado/validation'
-TEXT_FOLDER_VAL = 'data/legendas_inline_xline_64_balanceado/validation'
+IMAGE_FOLDER_TRAIN = 'data/janelas_parihaka_f3_balanceado/training'
+TEXT_FOLDER_TRAIN = 'data/legendas_parihaka_f3_balanceado/training'
+ 
+IMAGE_FOLDER_VAL = 'data/janelas_parihaka_f3_balanceado/validation'
+TEXT_FOLDER_VAL = 'data/legendas_parihaka_f3_balanceado/validation'
 
 PROJECTION_SIZE = 512
 
