@@ -44,7 +44,8 @@ import torch
 # N_EMBEDS_BATCH = 1000  # How many files to save each time
 # MAX_SIZE_MEMORY = 5000
 
-LANG_PREFIX_CHECKPOINT ='checkpoints/prefix_ckpt_parihaka_f3_mlp.pth'
+MAP_NETWORK = 'transformer'
+LANG_PREFIX_CHECKPOINT =f'checkpoints/prefix_ckpt_parihaka_f3_{MAP_NETWORK}.pth'
 
 CLIP_VISION_MODEL = 'checkpoints/resnet18_parihaka_f3_encoder.pth'
 CLIP_LANGUAGE_MODEL = 'checkpoints/lang_ckpt_parihaka_f3.pt'
@@ -61,7 +62,6 @@ IMAGE_FOLDER_VAL = 'data/janelas_parihaka_f3_balanceado/validation'
 TEXT_FOLDER_VAL = 'data/legendas_parihaka_f3_balanceado/validation'
 
 PROJECTION_SIZE = 512
-MAP_NETWORK = 'mlp'
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
