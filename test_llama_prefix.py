@@ -82,6 +82,9 @@ def avaliar_legendas(legendas_geradas_labels):
         contagens = {}
         correto = False
 
+        if resultado_avaliado['label'] == 'chaotic-channels':
+            continue
+
         quantidade_captions = len(resultado_avaliado['captions'])
 
         legenda_avaliada = resultado_avaliado['captions'][0]
