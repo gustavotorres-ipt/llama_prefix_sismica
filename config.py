@@ -44,7 +44,7 @@ import torch
 # N_EMBEDS_BATCH = 1000  # How many files to save each time
 # MAX_SIZE_MEMORY = 5000
 
-MAP_NETWORK = 'transformer'
+MAP_NETWORK = 'mlp'
 LANG_PREFIX_CHECKPOINT =f'checkpoints/prefix_ckpt_parihaka_f3_{MAP_NETWORK}.pth'
 
 CLIP_VISION_MODEL = 'checkpoints/resnet18_parihaka_f3_encoder.pth'

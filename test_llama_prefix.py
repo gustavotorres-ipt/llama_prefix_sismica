@@ -16,9 +16,8 @@ import os
 
 DICT_EVENTS = {
     'sigmoid': [
-        'a sigmoid', 'a clinoform', 'progradational geometry',
-        'a sigmoidal clinoform set', 'an oblique clinoform pattern',
-        'forward-prograding geometry',
+        'sigmoid', 'clinoform', 'progradational',
+        'sigmoidal', 'oblique', 'prograding',
     ],
     'shingled': [
         'overlapping geometry', 'superposed structure', 'shingled reflection',
@@ -33,17 +32,12 @@ DICT_EVENTS = {
         'near-parallel lamination',
     ],
     'parallel': [
-        'a parallel geometry', 'continuous horizontal reflections', 'a planar geometry',
-        'an uniform layering pattern', 'a parallel-bedded strata',
-        'concordant seismic layering', 'a tabular reflection pattern',
-        'laterally uniform bedding', 'a parallel-laminated unit',
-        'an horizontally layered sequence',
+        'parallel', 'continuous', 'planar', 'uniform', 'concordant',
+        'tabular', 'horizontally',
     ],
     'divergent': [
-        'a divergent bedform geometry', 'a spreading stratigraphic unit',
-        'diverging seismic pattern', 'flaring reflection geometry',
-        'a fanning reflection geometry', 'thickening wedge pattern',
-        'divergent foreset reflections', 'differentially dipping reflectors',
+        'divergent', 'spreading', 'diverging', 'flaring',
+        'fanning', 'thickening', 'differentially',
     ],
     'mounded': [
         'mounded geometry', 'domed structure', 'rounded pattern',
@@ -64,17 +58,11 @@ DICT_EVENTS = {
         'a corrugated seismic texture',
     ],
     'chaotic': [
-        'chaotic reflections', 'an undefined seismic structure', 'a chaotic pattern',
-        'undefined internal geometry', 'chaotic internal geometry',
-        'internal structuraly disturbed reflexions',
+        'chaotic', 'undefined', 'disturbed',
     ],
 
     'chaotic-channels': [
-        'disordered reflection patterns indicative of potential meandering channels',
-        'irregular seismic reflections suggestive of channel systems',
-        'undefined internal geometry with possibility of containing channels',
-        'complex and chaotic reflection patterns indicating possible presence of channels',
-        'chaotic seismic reflections potentially indicative of meandering channel systems',
+        'meandering',  'channels', 'irregular', 'chaotic channel',
     ],
 
     'wavy': [
@@ -96,17 +84,15 @@ def avaliar_legendas(legendas_geradas_labels):
 
         quantidade_captions = len(resultado_avaliado['captions'])
 
-        for n in range(quantidade_captions):
-            legenda_avaliada = resultado_avaliado['captions'][n]
+        legenda_avaliada = resultado_avaliado['captions'][0]
 
-            # checa se alguma das frases está na legenda avaliada
-            for chave, lista_frases in DICT_EVENTS.items():
-                for frase in lista_frases:
-                    if frase in legenda_avaliada:
-                        if chave in contagens:
-                            contagens[chave] += 1
-                        else:
-                            contagens[chave] = 1
+        # checa se alguma das frases está na legenda avaliada
+        for chave, lista_frases in DICT_EVENTS.items():
+            contagens[chave] = 0
+            for frase in lista_frases:
+                if frase in legenda_avaliada:
+                    if chave in contagens:
+                        contagens[chave] += 1
 
         if contagens:  # Verifica se encontrou algo
             label_maior_contagem = max(contagens, key=contagens.get)
