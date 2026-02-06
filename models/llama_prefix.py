@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 from transformers import AutoModelForCausalLM, AutoTokenizer
-from config import device
+from config import device, MAP_NETWORK
 from models.prefix_transformer import PrefixTransformer
 
 
@@ -28,19 +28,21 @@ class LlamaPrefix(nn.Module):
 
         # MLP using to project the dimensions of the CLIP output
         # to (llama latent space X number of prefix embeddings).
-        # self.proj_mlp = PrefixTransformer(
-        #     clip_dim=clip_hidden_dim,
-        #     hidden_size=self.hidden_size,
-        #     prefix_len=self.prefix_len,
-        # )
-        self.proj_mlp = nn.Sequential(
-            nn.Linear(clip_hidden_dim, self.hidden_size),
-            nn.GELU(),
-            nn.Linear(self.hidden_size, self.hidden_size*2),
-            nn.GELU(),
-            nn.Linear(self.hidden_size*2, self.hidden_size*self.prefix_len),
-            nn.LayerNorm(self.hidden_size * self.prefix_len)
-        )
+        if MAP_NETWORK.lower() == 'mlp':
+            self.proj_mlp = nn.Sequential(
+                nn.Linear(clip_hidden_dim, self.hidden_size),
+                nn.GELU(),
+                nn.Linear(self.hidden_size, self.hidden_size*2),
+                nn.GELU(),
+                nn.Linear(self.hidden_size*2, self.hidden_size*self.prefix_len),
+                nn.LayerNorm(self.hidden_size * self.prefix_len)
+            )
+        else:
+            self.proj_mlp = PrefixTransformer(
+                clip_dim=clip_hidden_dim,
+                hidden_size=self.hidden_size,
+                prefix_len=self.prefix_len,
+            )
         for p in self.lang_model.parameters():
             p.requires_grad = False
 
@@ -124,8 +126,8 @@ class LlamaPrefix(nn.Module):
             inputs_embeds=inputs_embeds,
             attention_mask=attention_mask,
             max_new_tokens=max_new_tokens,
-            temperature=0.4,
-            top_p=0.8,
+            temperature=0.3,
+            top_p=0.85,
             repetition_penalty=1.2,
             no_repeat_ngram_size=3,
             pad_token_id=self.tokenizer.pad_token_id,

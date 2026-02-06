@@ -122,7 +122,8 @@ def main():
     best_weights = None
 
     for epoch in range(1, N_EPOCHS+1):
-        avg_train_loss = calc_train_loss(train_loader, llama_model, clip_encoder, criterion, optimizer)
+        avg_train_loss = calc_train_loss(
+                train_loader, llama_model, clip_encoder, criterion, optimizer)
         avg_val_loss = calc_val_loss(val_loader, llama_model, clip_encoder, criterion)
 
         if avg_val_loss < best_loss:
