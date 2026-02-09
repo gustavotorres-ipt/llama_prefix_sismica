@@ -86,16 +86,17 @@ def criar_matriz_de_cofusao(resultados):
 
     cm = confusion_matrix(labels_real, labels_pred, normalize='true')
 
-    plt.tight_layout()
+    # plt.tight_layout()
     ax = sns.heatmap(
         cm, annot=True, xticklabels=classes_possiveis,
         yticklabels=classes_possiveis, cmap="Blues", vmin=0.0, vmax=1.0,
         fmt=".2f",
     )
-    ax.set_xticklabels(ax.get_xticklabels())
+    ax.set_yticklabels(ax.get_xticklabels(), rotation=75)
     plt.xlabel("Predicted label")
     plt.ylabel("True label")
-    # plt.title(f"Confusion matrix for {modelo} - {espectrograma} spectrogram")
+    plt.title(MAP_NETWORK.upper())
+
     save_path = f'prefix_{MAP_NETWORK}_confusion_matrix.png'
     plt.savefig(save_path)
     plt.clf()
