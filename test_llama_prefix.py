@@ -9,13 +9,11 @@ from models.llama_prefix import LlamaPrefix
 from models.clip_model import CLIP_DistilBert_ResNet
 from config import CUSTOM_CLIP_FILE, device, LANG_PREFIX_CHECKPOINT, MAP_NETWORK
 from dataset import load_datasets
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import confusion_matrix
 
 torch.cuda.set_device(0)
 torch.backends.cuda.matmul.allow_tf32 = True
 # torch.backends.cudnn.benchmark = False
-import json
-import os
 
 DICT_EVENTS = {
     'sigmoid': [
@@ -86,13 +84,16 @@ def criar_matriz_de_cofusao(resultados):
 
     cm = confusion_matrix(labels_real, labels_pred, normalize='true')
 
-    # plt.tight_layout()
+    plt.tight_layout()
+    fig, ax = plt.subplots(figsize=(8.2, 6.5))                
+
     ax = sns.heatmap(
         cm, annot=True, xticklabels=classes_possiveis,
         yticklabels=classes_possiveis, cmap="Blues", vmin=0.0, vmax=1.0,
-        fmt=".2f",
+        fmt=".2f", ax=ax, annot_kws={"size": 12}, 
     )
-    ax.set_yticklabels(ax.get_xticklabels(), rotation=75)
+    ax.set_yticklabels(ax.get_yticklabels())
+    ax.set_xticklabels(ax.get_yticklabels())#, rotation=10)
     plt.xlabel("Predicted label")
     plt.ylabel("True label")
     plt.title(MAP_NETWORK.upper())
@@ -115,7 +116,7 @@ def avaliar_legendas(legendas_geradas_labels):
         # if resultado_avaliado['label'] == 'chaotic-channels':
         #     continue
 
-        quantidade_captions = len(resultado_avaliado['captions'])
+        # quantidade_captions = len(resultado_avaliado['captions'])
 
         legenda_avaliada = resultado_avaliado['captions'][0]
 
