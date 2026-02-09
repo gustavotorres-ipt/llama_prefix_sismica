@@ -1,0 +1,280 @@
+Loading images and captions...
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a 2D section featuring an a sigmoid. An a clinoform set. An oblique pro
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: on an undefined subsurface model of internal structuraly disturbed reflexions. 4D seismic section. An
+----------------------------------------------------------------------------------------------------
+checkpoints/prefix_ckpt_parihaka_f3_mlp.pth saved.
+Epoch 1 - Train loss: 2.1175707440043605. Val loss: 1.50703125
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a 2D section exhibiting forward-prograding geometry. an oblique clinoform set. An a
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a 2D section exhibiting an a chaotic pattern. An an undefined seismic structure. (an an horizontal
+----------------------------------------------------------------------------------------------------
+checkpoints/prefix_ckpt_parihaka_f3_mlp.pth saved.
+Epoch 2 - Train loss: 1.19970703125. Val loss: 1.4420247395833334
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a 2D section featuring an a sigmoid. An a clinoform.4A seismic layering
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a 2D section featuring an a chaotic pattern.4 An a chaotic geometry. A 1.
+----------------------------------------------------------------------------------------------------
+checkpoints/prefix_ckpt_parihaka_f3_mlp.pth saved.
+Epoch 3 - Train loss: 1.0608619867369187. Val loss: 1.191552734375
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a 2D section presenting an a sigmoid. An a clinoform. An suture with pro
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section featuring an a chaotic pattern. An a chaotic geometry. An an a horizontal layer. A
+----------------------------------------------------------------------------------------------------
+checkpoints/prefix_ckpt_parihaka_f3_mlp.pth saved.
+Epoch 4 - Train loss: 0.8046718863553779. Val loss: 1.0178059895833333
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a 2D section featuring an a sigmoid. An a clinoform. S. A procl
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a chaotic pattern. An a chaotic reflection geometry. Internal structure. A chaotic reflection
+----------------------------------------------------------------------------------------------------
+checkpoints/prefix_ckpt_parihaka_f3_mlp.pth saved.
+Epoch 5 - Train loss: 0.724632085755814. Val loss: 0.9887044270833333
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a 2D section with an a sigmoid. An a clinoform. S. (left).
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section characterized by an a chaotic pattern. An a clinoform. An suture is chaotic
+----------------------------------------------------------------------------------------------------
+checkpoints/prefix_ckpt_parihaka_f3_mlp.pth saved.
+Epoch 6 - Train loss: 0.6754192973292151. Val loss: 0.929638671875
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a 3D seismic model characterized by an a sigmoid. An a clinoform. S. A
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a chaotic pattern. An a 2D seismic model of chaotic reflections.
+----------------------------------------------------------------------------------------------------
+Epoch 7 - Train loss: 0.6432452534520349. Val loss: 0.934326171875
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section with an a sigmoid. An a clinoform. Clinoform A. S.
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a chaotic pattern. An a 4-bit image exhibiting chaotic reflections. A chaotic
+----------------------------------------------------------------------------------------------------
+checkpoints/prefix_ckpt_parihaka_f3_mlp.pth saved.
+Epoch 8 - Train loss: 0.6319054891896803. Val loss: 0.8916829427083334
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section with an a sigmoid. An a clinoform. An an a clINOse cl
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section presenting an a chaotic pattern. An a 3D seimin 2D model
+----------------------------------------------------------------------------------------------------
+Epoch 9 - Train loss: 0.6255635106286337. Val loss: 0.9178873697916666
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section with an a sigmoid. An a clinoform. An an a clINOstrat
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a chaotic pattern. An a chaotic reflection structure. (chalkyseous
+----------------------------------------------------------------------------------------------------
+Epoch 10 - Train loss: 0.6217977834302325. Val loss: 0.91767578125
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section with an a sigmoid. An a clinoform. An an a clINOstrat
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a chaotic pattern. An a clinoform. A chaotic surface characterized by chaotic
+----------------------------------------------------------------------------------------------------
+Epoch 11 - Train loss: 0.6175948741824128. Val loss: 0.8994954427083334
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section with an a sigmoid. An a clinoform. A sigmoidal-clinoides
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a chaotic pattern. An a 3D model of chaotic reflections. A chaotic
+----------------------------------------------------------------------------------------------------
+Epoch 12 - Train loss: 0.6166594749273255. Val loss: 0.89580078125
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section with an a clinoform. An a sigmoidal-clinoform set. A pro
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a clinoform. An a suturen. A 2D model
+----------------------------------------------------------------------------------------------------
+Epoch 13 - Train loss: 0.6145956349927325. Val loss: 0.8947265625
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section. a 3D model with an a clinoform. An a sigmoidal se
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a clinoform. An a 2D seismic model of undefined internal geometry
+----------------------------------------------------------------------------------------------------
+Epoch 14 - Train loss: 0.613426031068314. Val loss: 0.892578125
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a 3D seismic model with an a sigmoid. An a clinoform. A suture is
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a sigmoidal epitope reflection. (an a sigmoid). An a suture
+----------------------------------------------------------------------------------------------------
+Epoch 15 - Train loss: 0.6130285928415697. Val loss: 0.8986490885416667
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a 3D seismic model presenting an a sigmoid. An a clinoform. A suturen
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a clinoform. An a sigmoidal generation pattern. (an a sigmoid
+----------------------------------------------------------------------------------------------------
+checkpoints/prefix_ckpt_parihaka_f3_mlp.pth saved.
+Epoch 16 - Train loss: 0.6119810592296512. Val loss: 0.8883463541666666
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section exhibiting an a sigmoid. An a clinoform. A sigmoidal-clinoid.
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a clinoform. An a suturen. A 2D model
+----------------------------------------------------------------------------------------------------
+checkpoints/prefix_ckpt_parihaka_f3_mlp.pth saved.
+Epoch 17 - Train loss: 0.6104055005450582. Val loss: 0.8799967447916667
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section with an a sigmoid. An a clinoform. A sigmoidal-clinarity.
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a clinoform. An a suturen. A 2D model
+----------------------------------------------------------------------------------------------------
+Epoch 18 - Train loss: 0.6107049986373546. Val loss: 0.90556640625
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section with an a sigmoid. An a clinoform. A sigmoidal-clinarity.
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a sigmoid. An a 3D model exhibiting chaotic reflections. A suture
+----------------------------------------------------------------------------------------------------
+Epoch 19 - Train loss: 0.6093693223110465. Val loss: 0.9154947916666667
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section characterized by an a sigmoid. An a clinoform. A sigmoidal-clinarity
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a clinoform. An a 2D model comprising prograding depositional
+----------------------------------------------------------------------------------------------------
+Epoch 20 - Train loss: 0.6089874977289245. Val loss: 0.927099609375
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section with an a sigmoid. An a clinoform. A sigmoidal-clinoform set
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a clinoform. An a sigmoidal generation pattern. (an a pro
+----------------------------------------------------------------------------------------------------
+Epoch 21 - Train loss: 0.6093466115552325. Val loss: 0.9021158854166667
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section. An a sigmoidal cliffing pattern with an a clinoform. A suture
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a clinoform. An a sigmoidal junction. (an a suture
+----------------------------------------------------------------------------------------------------
+Epoch 22 - Train loss: 0.6077824082485465. Val loss: 0.8991536458333333
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section exhibiting an a sigmoid. An a clinoform. A suturen image with pro
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a clinoform. An a 2D model comprising undefined structural geometry.
+----------------------------------------------------------------------------------------------------
+Epoch 23 - Train loss: 0.6068640420603197. Val loss: 0.9016276041666667
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic image with an a sigmoidal clinoform. An a sigmoid. A suturen unit
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a clinoform. An a clastic deposit. A 1. S
+----------------------------------------------------------------------------------------------------
+Epoch 24 - Train loss: 0.6071692178415697. Val loss: 0.8973307291666667
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section with an a sigmoid. An a clinoform. A sigmoidal-clinoid.
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a chaotic pattern. An a 3D seismic reflection structure. A chaotic
+----------------------------------------------------------------------------------------------------
+Epoch 25 - Train loss: 0.6064396348110465. Val loss: 0.900390625
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a 3D seismic model of an a sigmoid. An oblique clinoform pattern with prograd
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section exhibiting an a clinoform. An a sigmoidal projection. (an a sigmoid).
+----------------------------------------------------------------------------------------------------
+Epoch 26 - Train loss: 0.6052941610646803. Val loss: 0.884326171875
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section with an a sigmoid. An a clinoform. A sigmoidal-clinarity diagram
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a clinoform. An a 2D model exhibiting chaotic reflections. (
+----------------------------------------------------------------------------------------------------
+Epoch 27 - Train loss: 0.6044155386991279. Val loss: 0.898974609375
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section with an a sigmoid. An a clinoform. A sigmoidal-clinoform set
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a clinoform. An a 2D model of an A-type structure
+----------------------------------------------------------------------------------------------------
+Epoch 28 - Train loss: 0.6044240552325582. Val loss: 0.90078125
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic section with an a sigmoid. An a clinoform. A sigmoidal-clinoform set
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a clinoform. An a sigmoidal-seismic sequence. A 3
+----------------------------------------------------------------------------------------------------
+Epoch 29 - Train loss: 0.6040975881177325. Val loss: 0.9048828125
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image exhibiting an an uniform layering pattern.
+Predicted: a seismic image with an a sigmoidal clinoform. An a sigmoid. A suturen unit
+----------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------
+Correct: a seismic image containing an a chaotic pattern.
+Predicted: a seismic section with an a clinoform. An a sigmoidal projection. (an a suture
+----------------------------------------------------------------------------------------------------
+Epoch 30 - Train loss: 0.6025319653888082. Val loss: 0.900390625
