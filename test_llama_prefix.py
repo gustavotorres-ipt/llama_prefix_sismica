@@ -90,7 +90,7 @@ def criar_matriz_de_cofusao(resultados):
     ax = sns.heatmap(
         cm, annot=True, xticklabels=classes_possiveis,
         yticklabels=classes_possiveis, cmap="Blues", vmin=0.0, vmax=1.0,
-        fmt=".2f", annot_kws={"size": 16}, 
+        fmt=".2f",
     )
     ax.set_xticklabels(ax.get_xticklabels())
     plt.xlabel("Predicted label")
