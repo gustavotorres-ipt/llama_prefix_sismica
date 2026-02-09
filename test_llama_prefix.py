@@ -86,8 +86,6 @@ def criar_matriz_de_cofusao(resultados):
 
     cm = confusion_matrix(labels_real, labels_pred, normalize='true')
 
-    breakpoint()
-
     plt.tight_layout()
     ax = sns.heatmap(
         cm, annot=True, xticklabels=classes_possiveis,
