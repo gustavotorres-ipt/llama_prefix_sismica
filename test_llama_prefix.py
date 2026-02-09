@@ -1,12 +1,15 @@
+import numpy as np
 import torch
 import torch.nn.functional as F
+import seaborn as sns
+import matplotlib.pyplot as plt
 from tqdm import tqdm
 from torch.utils.data import DataLoader
-from transformers.models.oneformer.modeling_oneformer import PredictionBlock
 from models.llama_prefix import LlamaPrefix
 from models.clip_model import CLIP_DistilBert_ResNet
-from config import CUSTOM_CLIP_FILE, device, LANG_PREFIX_CHECKPOINT
+from config import CUSTOM_CLIP_FILE, device, LANG_PREFIX_CHECKPOINT, MAP_NETWORK
 from dataset import load_datasets
+from sklearn.metrics import accuracy_score, confusion_matrix
 
 torch.cuda.set_device(0)
 torch.backends.cuda.matmul.allow_tf32 = True
@@ -74,6 +77,34 @@ DICT_EVENTS = {
 }
 
 
+def criar_matriz_de_cofusao(resultados):
+
+    labels_pred = [r['maior_contagem'] for r in resultados]
+    labels_real = [r['label'] for r in resultados]
+
+    classes_possiveis = np.unique(labels_real)
+
+    cm = confusion_matrix(labels_real, labels_pred, normalize='true')
+
+    breakpoint()
+
+    plt.tight_layout()
+    ax = sns.heatmap(
+        cm, annot=True, xticklabels=classes_possiveis,
+        yticklabels=classes_possiveis, cmap="Blues", vmin=0.0, vmax=1.0,
+        fmt=".2f", annot_kws={"size": 16}, 
+    )
+    ax.set_xticklabels(ax.get_xticklabels())
+    plt.xlabel("Predicted label")
+    plt.ylabel("True label")
+    # plt.title(f"Confusion matrix for {modelo} - {espectrograma} spectrogram")
+    save_path = f'prefix_{MAP_NETWORK}_confusion_matrix.png'
+    plt.savefig(save_path)
+    plt.clf()
+
+    print(save_path, "saved.")
+
+
 def avaliar_legendas(legendas_geradas_labels):
     resultados = []
     total_corretos = 0
@@ -82,8 +113,8 @@ def avaliar_legendas(legendas_geradas_labels):
         contagens = {}
         correto = False
 
-        if resultado_avaliado['label'] == 'chaotic-channels':
-            continue
+        # if resultado_avaliado['label'] == 'chaotic-channels':
+        #     continue
 
         quantidade_captions = len(resultado_avaliado['captions'])
 
@@ -129,6 +160,7 @@ def avaliar_legendas(legendas_geradas_labels):
     acuracia = total_corretos/len(resultados)*100
 
     print(f"\n Acurácia: {acuracia}")
+    return resultados
 
 
 def cut_text_after_last_period(text: str) -> str:
@@ -207,7 +239,8 @@ def main():
                 'captions': [generated_text],
                 'label': label_batch[0]
             })
-        avaliar_legendas(legendas_geradas_labels)
+        resultados = avaliar_legendas(legendas_geradas_labels)
+        criar_matriz_de_cofusao(resultados)
 
 
 if __name__ == "__main__":

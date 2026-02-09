@@ -57,6 +57,7 @@ BATCH_SIZE = 32
 
 IMAGE_FOLDER_TRAIN = 'data/janelas_parihaka_f3_balanceado/training'
 TEXT_FOLDER_TRAIN = 'data/legendas_parihaka_f3_balanceado/training'
+# 
  
 IMAGE_FOLDER_VAL = 'data/janelas_parihaka_f3_balanceado/validation'
 TEXT_FOLDER_VAL = 'data/legendas_parihaka_f3_balanceado/validation'
