@@ -5054,7 +5054,7 @@ Legenda avaliada:  subsurface model containing an a chaotic pattern. Anisotrific
 Maior Contagem: chaotic (2)
 Label: chaotic
 Correto: True
-Legenda avaliada:  subsurface model exhibiting chaotic internal geometry. An an undefined seismic structure.
+Legenda avaliada:  subsurface model exhibiting chaotic internal geometry.An an undefined seismic structure.
 ----------------------
 Maior Contagem: sigmoid (3)
 Label: sigmoid

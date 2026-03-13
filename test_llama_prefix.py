@@ -90,13 +90,13 @@ def criar_matriz_de_cofusao(resultados):
     ax = sns.heatmap(
         cm, annot=True, xticklabels=classes_possiveis,
         yticklabels=classes_possiveis, cmap="Blues", vmin=0.0, vmax=1.0,
-        fmt=".2f", ax=ax, annot_kws={"size": 12}, 
+        fmt=".2f", ax=ax, annot_kws={"size": 18}, 
     )
-    ax.set_yticklabels(ax.get_yticklabels())
-    ax.set_xticklabels(ax.get_yticklabels())#, rotation=10)
+    ax.set_yticklabels(ax.get_yticklabels(), fontsize=14)
+    ax.set_xticklabels(ax.get_yticklabels(), fontsize=14)#, rotation=10)
     plt.xlabel("Predicted label")
     plt.ylabel("True label")
-    plt.title(MAP_NETWORK.upper())
+    # plt.title(MAP_NETWORK.upper())
 
     save_path = f'prefix_{MAP_NETWORK}_confusion_matrix.png'
     plt.savefig(save_path)
@@ -113,8 +113,8 @@ def avaliar_legendas(legendas_geradas_labels):
         contagens = {}
         correto = False
 
-        # if resultado_avaliado['label'] == 'chaotic-channels':
-        #     continue
+        if resultado_avaliado['label'] == 'chaotic-channels':
+            continue
 
         # quantidade_captions = len(resultado_avaliado['captions'])
 
