@@ -51,19 +51,20 @@ def show_volume_opencv(seismic_vol, current_inline, window_name):
     cv2.putText(img, f"Inline {current_inline}", (20, 40),
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
     cv2.imshow(window_name, img)
-    # cv.waitKey(0)
-    # cv.destroyAllWindows() 
 
 
 def opencv_loop(seismic_vol):
     window_name = "Seismic volume"
-    cv2.namedWindow(window_name)
+    cv2.namedWindow(window_name, cv2.WINDOW_GUI_NORMAL)
     cv2.setMouseCallback(window_name, mouse_callback)
 
     # Main loop
     while True:
         show_volume_opencv(seismic_vol, current_inline, window_name)
         if cv2.waitKey(1) & 0xFF == 27: # Press 'Esc' to exit
+            break
+
+        if cv2.getWindowProperty(window_name, cv2.WND_PROP_VISIBLE) < 1:
             break
 
 
@@ -206,36 +207,37 @@ def get_most_similar_images(
         cos_similarities = torch.concat(cos_similarities)
 
         percentile = torch.quantile(cos_similarities, 0.9)
-        # index of closest value to the percentile
-        # idx_percentile = torch.argmin(torch.abs(cos_similarities - q75))
         selected_imgs = cos_similarities >= percentile
 
         most_similar_imgs = [i for i in range(len(selected_imgs)) if selected_imgs[i]]
-
-        #num_images_highlight = cos_similarities.shape[0] - idx_percentile
-        # Get indexes from most similar patches
-        #most_similar_imgs = torch.topk(
-        #    cos_similarities, k=num_images_highlight, largest=True, sorted=True,
-        #).indices.cpu().detach().numpy().astype(int)
 
         return most_similar_imgs 
 
 
 def highlight_volume(seismic_vol, coordinates):
-    seismic_vol = (255 * 
-        (seismic_vol - seismic_vol.min()) /
-        (seismic_vol.max() - seismic_vol.min())
+    seismic_vol_copy = np.copy(seismic_vol)
+
+    # Clip the seismic volume under 1 and over 99 quantiles
+    quantiles = np.quantile(seismic_vol, [0.01, 0.99])
+    seismic_vol_copy[seismic_vol > quantiles[1]] = quantiles[1]
+    seismic_vol_copy[seismic_vol < quantiles[0]] = quantiles[0]
+
+    seismic_vol_copy = (255 * 
+        (seismic_vol_copy - seismic_vol_copy.min()) /
+        (seismic_vol_copy.max() - seismic_vol_copy.min())
     ).astype(np.uint8)
 
-    seismic_vol = np.stack((seismic_vol, seismic_vol, seismic_vol), axis=-1)
+    seismic_vol_copy = np.stack(
+        (seismic_vol_copy, seismic_vol_copy, seismic_vol_copy),
+        axis=-1)
 
     for il, xl, d in coordinates:
         x1 = xl - IMG_SIZE
         x2 = xl
         y1 = d - IMG_SIZE
         y2 = d
-        seismic_vol[il, x1:x2, y1:y2, 2] = 180  #1.5 * seismic_vol[il, y1:y2, x1:x2]
-    return seismic_vol
+        seismic_vol_copy[il, x1:x2, y1:y2, 2] = 180  #1.5 * seismic_vol[il, y1:y2, x1:x2]
+    return seismic_vol_copy
 
 
 def main():
@@ -264,27 +266,27 @@ def main():
 
     clip_encoder.eval()
 
-    # Enter prompt
-    prompt = input("What seismic images are you searching? ")
-    text_embeds = clip_encoder.encode_text(prompt)
+    while(True):
+        # Enter prompt
+        prompt = input("What seismic images are you searching? (type 'end' to stop) ")
 
-    most_similar_imgs = get_most_similar_images(
-        patches_tensors, clip_encoder, text_embeds
-    )
-    # Show most similar patches on screen
-    # plot_most_similar([patches_images[i] for i in most_similar_imgs])
+        if prompt.lower() == 'end':
+            break
+        text_embeds = clip_encoder.encode_text(prompt)
 
-    # TODO: Highlight nos patches dos inlines correspondentes e mostrar inlines
-    coordinates = patches_data['coordinates']
-    coordinates = [coordinates[i] for i in most_similar_imgs]
+        most_similar_imgs = get_most_similar_images(
+            patches_tensors, clip_encoder, text_embeds
+        )
 
-    quantiles = np.quantile(seismic_vol, [0.01, 0.99])
-    seismic_vol[seismic_vol > quantiles[1]] = quantiles[1]
-    seismic_vol[seismic_vol < quantiles[0]] = quantiles[0]
+        coordinates = patches_data['coordinates']
+        coordinates = [coordinates[i] for i in most_similar_imgs]
 
-    seismic_vol = highlight_volume(seismic_vol, coordinates)  #1.5 * seismic_vol[il, y1:y2, x1:x2]
+        seismic_vol_3channels = highlight_volume(seismic_vol, coordinates)  #1.5 * seismic_vol[il, y1:y2, x1:x2]
 
-    opencv_loop(seismic_vol)
+        opencv_loop(seismic_vol_3channels)
+
+        # cv2.waitKey(0)
+        cv2.destroyAllWindows() 
 
 
 if __name__ == "__main__":
