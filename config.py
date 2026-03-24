@@ -55,6 +55,8 @@ N_EPOCHS = 30
 LEARNING_RATE = 2e-6 # 1e-5
 BATCH_SIZE = 32
 
+IMG_SIZE = 96
+
 IMAGE_FOLDER_TRAIN = 'data/janelas_parihaka_f3_balanceado/training'
 TEXT_FOLDER_TRAIN = 'data/legendas_parihaka_f3_balanceado/training'
 # 
