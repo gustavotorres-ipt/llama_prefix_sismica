@@ -12,12 +12,13 @@ class LlamaPrefix(nn.Module):
                  clip_hidden_dim=512) -> None:
         super().__init__()
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            model_name, local_files_only=True)
         self.tokenizer.pad_token = self.tokenizer.eos_token
         self.tokenizer.pad_token_id = self.tokenizer.eos_token_id
 
         self.lang_model = AutoModelForCausalLM.from_pretrained(
-            model_name,
+            model_name, local_files_only=True,
             torch_dtype=torch.float16 if device == "cuda" else torch.float32,
             device_map="auto"
         )

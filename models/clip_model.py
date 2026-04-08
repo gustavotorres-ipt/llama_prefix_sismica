@@ -22,7 +22,8 @@ class CLIP_DistilBert_ResNet(nn.Module):
             text_model_name, local_files_only=True)
         self.tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 
-        self.text_encoder = AutoModel.from_pretrained(CLIP_LANGUAGE_MODEL)
+        self.text_encoder = AutoModel.from_pretrained(
+            CLIP_LANGUAGE_MODEL, local_files_only=True)
         # self.text_encoder = DistilBertModel.from_pretrained(text_model_name)
 
         text_hidden_dim = self.text_encoder.config.dim  # usually 768

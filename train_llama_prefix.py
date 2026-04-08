@@ -63,7 +63,7 @@ def calc_val_loss(val_loader, llama_model, clip_encoder, criterion):
 
             batch += 1
 
-    return total_val_loss / len(val_loader)
+    return total_val_loss / len(val_loader.dataset)
 
 
 def calc_train_loss(train_loader, llama_model, clip_encoder, criterion, optimizer):
@@ -97,7 +97,7 @@ def calc_train_loss(train_loader, llama_model, clip_encoder, criterion, optimize
         loss.backward()
         optimizer.step()
 
-    return total_train_loss / len(train_loader)
+    return total_train_loss / len(train_loader.dataset)
 
 
 def main():
