@@ -30,7 +30,7 @@ class LlamaPrefix(nn.Module):
         # MLP using to project the dimensions of the CLIP output
         # to (llama latent space X number of prefix embeddings).
         if MAP_NETWORK.lower() == 'mlp':
-            self.proj_mlp = nn.Sequential(
+            self.proj_layer = nn.Sequential(
                 nn.Linear(clip_hidden_dim, self.hidden_size),
                 nn.GELU(),
                 nn.Linear(self.hidden_size, self.hidden_size*2),
@@ -39,7 +39,7 @@ class LlamaPrefix(nn.Module):
                 nn.LayerNorm(self.hidden_size * self.prefix_len)
             )
         else:
-            self.proj_mlp = PrefixTransformer(
+            self.proj_layer = PrefixTransformer(
                 clip_dim=clip_hidden_dim,
                 hidden_size=self.hidden_size,
                 prefix_len=self.prefix_len,
@@ -60,7 +60,7 @@ class LlamaPrefix(nn.Module):
         return torch.cat([prefix_mask, text_mask], dim=1).long().to(device)
 
     def get_prefix_embeds_from_img_embeds(self, image_embeds):
-        x = self.proj_mlp(image_embeds).to(dtype=self.lang_model.dtype)
+        x = self.proj_layer(image_embeds).to(dtype=self.lang_model.dtype)
 
         prefix_embeds = x.view(x.size(0), self.prefix_len, self.hidden_size)
         return prefix_embeds
@@ -91,7 +91,7 @@ class LlamaPrefix(nn.Module):
 
 
     def forward(self, image_embeds, input_ids):
-        x = self.proj_mlp(image_embeds).to(dtype=self.lang_model.dtype)
+        x = self.proj_layer(image_embeds).to(dtype=self.lang_model.dtype)
 
         prefix_embeds = x.view(x.size(0), self.prefix_len, self.hidden_size)
         text_embeds = self.lang_model.model.embed_tokens(input_ids)
@@ -128,13 +128,13 @@ class LlamaPrefix(nn.Module):
             attention_mask=attention_mask,
             max_new_tokens=max_new_tokens,
             temperature=0.3,
-            top_p=0.85,
+            top_p=0.95,
             repetition_penalty=1.2,
             no_repeat_ngram_size=3,
             pad_token_id=self.tokenizer.pad_token_id,
             eos_token_id=self.tokenizer.eos_token_id,
             # early_stopping=True,
-        )[0]
+        ) #  [0] TODO
 
-        return self.tokenizer.decode(
-            generated_ids, skip_special_tokens=True)
+        return [self.tokenizer.decode(sent_ids, skip_special_tokens=True)
+                for sent_ids in generated_ids]

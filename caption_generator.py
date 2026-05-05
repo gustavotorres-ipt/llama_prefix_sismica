@@ -10,11 +10,15 @@ from dataset import ImageNorm
 class CaptionGenerator:
     def __init__(self):
         # Load img transformation pipeline
-        self.encoder = CLIP_DistilBert_ResNet() 
-        self.decoder = LlamaPrefix()
+        self.encoder = CLIP_DistilBert_ResNet().to(device)
+        self.decoder = LlamaPrefix().to(device)
 
         self.encoder.load_state_dict(torch.load(CUSTOM_CLIP_FILE))
-        self.decoder.load_state_dict(torch.load(LANG_PREFIX_CHECKPOINT))
+        self.decoder.proj_layer.load_state_dict(
+            torch.load(LANG_PREFIX_CHECKPOINT))
+
+        self.encoder.eval()
+        self.decoder.eval()
 
         self.transformation = transforms.Compose([
             transforms.Resize((IMG_SIZE, IMG_SIZE)),
@@ -28,7 +32,7 @@ class CaptionGenerator:
 
         # Transform image
         tensor_image = self.transformation(image)
-        tensor_image = tensor_image.unsqueeze(0)
+        tensor_image = tensor_image.unsqueeze(0).to(device)
 
         # Encode image
         image_embeds = self.encoder.encode_image(tensor_image)
@@ -48,6 +52,6 @@ class CaptionGenerator:
         caption = self.decoder.generate_text_from_embeds(inputs_embeds)
 
         if caption[-1] != '.':
-            caption = '.'.join(caption.split('.')[:-1])
+            caption = '.'.join(caption.split('.')[:-1]) + '.'
 
         return caption

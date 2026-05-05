@@ -1,5 +1,4 @@
 import torch
-import copy
 from torch import nn
 from tqdm import tqdm
 from torch.utils.data import DataLoader
@@ -77,7 +76,9 @@ def calc_train_loss(train_loader, llama_model, clip_encoder, criterion, optimize
         text_inputs = llama_model.tokenize_texts(text_batch)
         inputs_ids = text_inputs.input_ids
 
-        image_embeds = clip_encoder.encode_image(image_batch)
+
+        with torch.no_grad():
+            image_embeds = clip_encoder.encode_image(image_batch)
 
         outputs = llama_model( image_embeds, inputs_ids )
 
@@ -113,21 +114,22 @@ def main():
         ignore_index=llama_model.tokenizer.pad_token_id, reduction="sum"
     )
     optimizer = torch.optim.Adam(
-        llama_model.proj_mlp.parameters(), lr=LEARNING_RATE
+        llama_model.proj_layer.parameters(), lr=LEARNING_RATE
     )
 
     clip_encoder.load_state_dict(torch.load(CUSTOM_CLIP_FILE))
+    clip_encoder.eval()
 
     best_loss = float("inf")
-    best_weights = None
 
     for epoch in range(1, N_EPOCHS+1):
         avg_train_loss = calc_train_loss(
-                train_loader, llama_model, clip_encoder, criterion, optimizer)
-        avg_val_loss = calc_val_loss(val_loader, llama_model, clip_encoder, criterion)
+            train_loader, llama_model, clip_encoder, criterion, optimizer)
+        avg_val_loss = calc_val_loss(
+            val_loader, llama_model, clip_encoder, criterion)
 
         if avg_val_loss < best_loss:
-            best_weights = copy.deepcopy(llama_model.state_dict())
+            best_weights = llama_model.proj_layer.state_dict()
             best_loss = avg_val_loss
             torch.save(best_weights, LANG_PREFIX_CHECKPOINT)
             print(LANG_PREFIX_CHECKPOINT, "saved.")

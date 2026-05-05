@@ -15,6 +15,10 @@ torch.cuda.set_device(0)
 torch.backends.cuda.matmul.allow_tf32 = True
 # torch.backends.cudnn.benchmark = False
 
+
+BATCH_SIZE = 128
+
+
 DICT_EVENTS = {
     'sigmoid': [
         'sigmoid', 'clinoform', 'progradational',
@@ -195,7 +199,8 @@ def get_most_probable_tokens_prefix(llama_model, prefix_embeds):
 def main():
     _, val_dataset = load_datasets()
 
-    val_loader = DataLoader(val_dataset, batch_size=1, shuffle=True)
+    # TODO batch_size=1
+    val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=True)
     legendas_geradas_labels = []
 
     with torch.no_grad():
@@ -204,7 +209,7 @@ def main():
         clip_encoder.eval()
 
         llama_model = LlamaPrefix().to(device)
-        llama_model.load_state_dict(torch.load(LANG_PREFIX_CHECKPOINT))
+        llama_model.proj_layer.load_state_dict(torch.load(LANG_PREFIX_CHECKPOINT))
         llama_model.eval()
 
 
@@ -213,32 +218,35 @@ def main():
             image_embeds = clip_encoder.encode_image(image_batch)
 
             prefix_embeds = \
-                llama_model.get_prefix_embeds_from_img_embeds(image_embeds)[0]
-            prefix_embeds = prefix_embeds.unsqueeze(0)
+                llama_model.get_prefix_embeds_from_img_embeds(image_embeds)  #[0] TODO
+            # prefix_embeds = prefix_embeds.unsqueeze(0) TODO
 
             bos_id = llama_model.tokenizer.bos_token_id
+            # TODO
             bos_embed = llama_model.lang_model.model.embed_tokens(
-                torch.tensor([[bos_id]], device=device)
+                torch.tensor([[bos_id]] * prefix_embeds.size(0), device=device)
             )
             inputs_embeds = torch.cat([bos_embed, prefix_embeds], dim=1)
 
-            print(100 * '-')
             #prefix_tokens, _ = get_most_probable_tokens_prefix(
             #    llama_model, inputs_embeds)
 
-            print("Correct caption:", caption_batch[0])
-            generated_text = llama_model.generate_text_from_embeds(inputs_embeds)
-            generated_text = cut_text_after_last_period(generated_text)
+            generated_captions = llama_model.generate_text_from_embeds(inputs_embeds)
+            # generated_captions = cut_text_after_last_period(generated_captions)
+            generated_captions = [cut_text_after_last_period(caption)
+                                  for caption in generated_captions]
 
-            print("Generated:", generated_text)
-            print("Label:", label_batch[0])
-            #print("Closest tokens to prefix embeddings:", " ".join(prefix_tokens[1:]))
+            for i, caption in enumerate(generated_captions):
+                print("Correct caption:", caption_batch[i])
+                print("Generated:", caption)
+                print("Label:", label_batch[i])
+                #print("Closest tokens to prefix embeddings:", " ".join(prefix_tokens[1:]))
+                print(100 * '-')
 
-
-            legendas_geradas_labels.append({
-                'captions': [generated_text],
-                'label': label_batch[0]
-            })
+                legendas_geradas_labels.append({
+                    'captions': [caption],
+                    'label': label_batch[i]
+                })
         resultados = avaliar_legendas(legendas_geradas_labels)
         criar_matriz_de_cofusao(resultados)
 
